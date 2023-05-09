@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./asset/css/styles.css">
+    <script src="./asset/js/app.js" defer></script>
     <title>ChatBot</title>
 </head>
 <body>
-
+<main>
+    <div class="messageBox">
+        <div id="messagesContainer" class="messagesContainer">
+        </div>
+        <form id="form" class="inputContainer">
+            <input id="input" class="input" type="text" placeholder="Posez votre question" />
+            <input class="button" type="submit" value="Envoyer" />
+        </form>
+    </div>
+</main>
 </body>
 </html>
