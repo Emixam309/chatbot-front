@@ -16,13 +16,27 @@ const questions = [
 document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault()
   const messagesContainer = document.getElementById("messagesContainer")
+  const input = document.getElementById("input")
 
   const question = document.createElement("div")
-  question.innerHTML = document.getElementById("input").value
+  question.innerHTML = input.value
   question.setAttribute("class","message fromYou");
   const response = document.createElement("div")
   response.setAttribute("class","message");
-  response.innerHTML = "hello"
+  response.innerHTML = questions.find((question) => question.question === input.value).response
   messagesContainer.appendChild(question)
+  setTimeout(() => {
   messagesContainer.appendChild(response)
+  }, 300)
+  input.value = ""
+})
+
+
+
+const dataList = document.getElementById("input-list")
+
+questions.forEach((question) => {
+  const option = document.createElement("option")
+  option.setAttribute("value", question.question);
+  dataList.appendChild(option)
 })
