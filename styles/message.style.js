@@ -31,7 +31,7 @@ export const Message = styled.div`
   border-radius: 20px;
   max-width: 90%;
   text-align: left;
-  background: ${({isYou}) => (isYou ? "#2294fb" : "#b4b4bc")};
+  background: ${({isYou}) => (isYou ? "#2294fb" : "#747474")};
   align-self: ${({isYou}) => (isYou ? "flex-end" : "flex-start")};
   transform-origin: ${({isYou}) => (isYou ? "100% 100%" : "0 100%")};
   transform: scale(0);
