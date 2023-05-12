@@ -1,29 +1,20 @@
 import Head from 'next/head'
 import { MessageBox, InputContainer, Message, MessagesContainer } from '../styles/message.style'
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import { fetchApi } from "../utils/api";
 
 export default function Home() {
   const [messageToSend, setMessageToSend] = useState("")
   const [messageList, setMessageList] = useState([{id: 0, value: "Ouais c'est Greg", isYou: false}])
+  const [questionList, setQuestionList] = useState([])
   const BottomMessageBox = useRef(null)
 
-  const questions = [
-    {
-      id: 0,
-      question: "Salut",
-      response: "Salut"
-    },
-    {
-      id: 1,
-      question: "Comment vas-tu ?",
-      response: "Je vais bien, merci."
-    },
-    {
-      id: 2,
-      question: "Quel est ton nom ?",
-      response: "Ouais c'est Greg."
-    }
-  ]
+  useEffect(() => {
+    fetchApi("/dialog/questions")
+      .then((response) => {
+        setQuestionList(response)
+      })
+  }, [])
 
   const addMessage = (e, value, isYou) => {
     e.preventDefault();
@@ -32,17 +23,24 @@ export default function Home() {
     const msgList = [...messageList, {id: messageIndex, value, isYou}]
     setMessageToSend("")
     setMessageList(msgList)
-    const response = questions.find(({question}) => question === value)?.response
+    const dialog = questionList.find(({question}) => question === value)
     let msgResponse = []
-    if (!response) {
+    if (!dialog) {
       msgResponse = [...msgList, {id: messageIndex + 1, value: "Je ne reconnais pas votre question", isYou: false}]
+      setTimeout(() => {
+        setMessageList(msgResponse)
+        BottomMessageBox.current.scrollIntoView({behavior: "auto"})
+      }, 300);
     } else {
-      msgResponse = [...msgList, {id: messageIndex + 1, value: response, isYou: false}]
+      const d = fetchApi(`/dialog/answer/${dialog.id}`)
+        .then((response) => {
+          msgResponse = [...msgList, {id: messageIndex + 1, value: response.response, isYou: false}]
+            setMessageList(msgResponse)
+          setTimeout(() => {
+            BottomMessageBox.current.scrollIntoView({behavior: "auto"})
+          }, 300);
+        })
     }
-    setTimeout(() => {
-      setMessageList(msgResponse)
-      BottomMessageBox.current.scrollIntoView({behavior: "auto"})
-    }, 300);
   }
 
   return (
@@ -66,7 +64,7 @@ export default function Home() {
                  onChange={(e) => setMessageToSend(e.target.value)} type="text"
                  placeholder="Posez votre question"></input>
           <datalist id="input-list">
-            {questions.map(({question, id}) => <option key={id} value={question}></option>)}
+            {questionList.map(({question, id}) => <option key={id} value={question}></option>)}
           </datalist>
           <input className="button" type="submit" value="Envoyer"/>
         </InputContainer>
