@@ -10,7 +10,7 @@ export default function Home() {
   const BottomMessageBox = useRef(null)
 
   useEffect(() => {
-    fetchApi("/dialog/questions")
+    fetchApi("/dialogs/questions")
       .then((response) => {
         setQuestionList(response)
       })
@@ -32,7 +32,7 @@ export default function Home() {
         BottomMessageBox.current.scrollIntoView({behavior: "auto"})
       }, 300);
     } else {
-      const d = fetchApi(`/dialog/answer/${dialog.id}`)
+      const d = fetchApi(`/dialog/${dialog.id}`)
         .then((response) => {
           msgResponse = [...msgList, {id: messageIndex + 1, value: response.response, isYou: false}]
             setMessageList(msgResponse)
