@@ -5,7 +5,7 @@ import { fetchApi } from "../utils/api";
 
 export default function Home() {
   const [messageToSend, setMessageToSend] = useState("")
-  const [messageList, setMessageList] = useState([{id: 0, value: "Ouais c'est Greg", isYou: false}])
+  const [messageList, setMessageList] = useState([{_id: 0, value: "Ouais c'est Greg.", isYou: false}])
   const [questionList, setQuestionList] = useState([])
   const BottomMessageBox = useRef(null)
 
@@ -32,7 +32,7 @@ export default function Home() {
         BottomMessageBox.current.scrollIntoView({behavior: "auto"})
       }, 300);
     } else {
-      const d = fetchApi(`/dialog/${dialog.id}`)
+      const d = fetchApi(`/dialog/${dialog._id}`)
         .then((response) => {
           msgResponse = [...msgList, {id: messageIndex + 1, value: response.response, isYou: false}]
             setMessageList(msgResponse)
