@@ -5,7 +5,7 @@ import { fetchApi } from "../utils/api";
 
 export default function Home() {
   const [messageToSend, setMessageToSend] = useState("")
-  const [messageList, setMessageList] = useState([{_id: 0, value: "Ouais c'est Greg.", isYou: false}])
+  const [messageList, setMessageList] = useState([{_id: 0, value: "Bonjour ! 😀", isYou: false}])
   const [questionList, setQuestionList] = useState([])
   const BottomMessageBox = useRef(null)
 
